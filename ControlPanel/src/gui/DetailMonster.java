@@ -23,9 +23,6 @@ public class DetailMonster extends GridPane {
     private DomeinController controller;
     private ImageView ivPower, ivDefense, ivSpeed, ivAwareness;
 
-    private void testmethode() {
-        
-    }
     //pro
     protected Label lblDetailName, lblDetailPower,
             /**
