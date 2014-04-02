@@ -658,52 +658,31 @@ public class TreasurePanel extends GridPane {
         /* VBox nameDescription=new VBox();
          nameDescription.getChildren().add(lblName);
          nameDescription.getChildren().add(lblDescription);*/
-        add(ivAvatar,
-                0, 0, 1, 2);
-        add(lblName,
-                1, 0, 3, 1);
+        add(ivAvatar, 0, 0, 1, 2);
+        add(lblName, 1, 0, 3, 1);
         add(lblId, 5, 0);
-        add(lblDescription,
-                1, 1, 5, 1);
-        add(lblPower,
-                1, 2);
-        add(lblDefense,
-                1, 3);
-        add(padding1,
-                2, 2, 1, 2);
-        add(lblSpeed,
-                3, 2);
-        add(lblAwareness,
-                3, 3);
-        add(padding2,
-                4, 2, 1, 2);
-        add(lblValue,
-                5, 2);
+        add(lblDescription, 1, 1, 5, 1);
+        add(lblPower, 1, 2);
+        add(lblDefense, 1, 3);
+        add(padding1, 2, 2, 1, 2);
+        add(lblSpeed, 3, 2);
+        add(lblAwareness, 3, 3);
+        add(padding2, 4, 2, 1, 2);
+        add(lblValue, 5, 2);
 
-        add(txfName,
-                1, 0, 5, 1);
-        add(txfDescription,
-                1, 1, 5, 1);
-        add(txfPower,
-                1, 2);
-        add(txfDefense,
-                1, 3);
-        add(txfSpeed,
-                3, 2);
-        add(txfAwareness,
-                3, 3);
-        add(txfValue,
-                5, 2);
-        add(cbAvatars,
-                1, 4, 5, 1);
-        //add(txfAvatar, 1, 4, 5, 1);
+        add(txfName, 1, 0, 5, 1);
+        add(txfDescription, 1, 1, 5, 1);
+        add(txfPower, 1, 2);
+        add(txfDefense, 1, 3);
+        add(txfSpeed, 3, 2);
+        add(txfAwareness, 3, 3);
+        add(txfValue, 5, 2);
+        add(cbAvatars, 1, 4, 5, 1);
 
-        add(updateBtn,
-                0, 2);
+        add(updateBtn, 0, 2);
         setHalignment(updateBtn, HPos.CENTER);
 
-        add(deleteBtn,
-                0, 3);
+        add(deleteBtn, 0, 3);
         setHalignment(deleteBtn, HPos.CENTER);
 
         txfName.setOnAction(
