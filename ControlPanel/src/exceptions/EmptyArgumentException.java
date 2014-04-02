@@ -1,7 +1,5 @@
 package exceptions;
 
-import domein.*;
-//his is a test
 /**
  *
  * @author Robin
