@@ -46,7 +46,7 @@ public class Dialog {
     private static Image Information = new Image(Main.class.getResourceAsStream("/images/icons/Information.png"));
     private static Image Question = new Image(Main.class.getResourceAsStream("/images/icons/Question.png"));
     private static Image iTitle = (new Image(Main.class.getResourceAsStream("/images/icons/iTitle_icon.png")));
-     private static Image qTitle = (new Image(Main.class.getResourceAsStream("/images/icons/qTitle_icon.png")));
+    private static Image qTitle = (new Image(Main.class.getResourceAsStream("/images/icons/qTitle_icon.png")));
 
          public enum Response {
         NO, YES, CLOSED
@@ -54,7 +54,7 @@ public class Dialog {
      
     private static Response buildConfirmationDialog(Stage owner,String message, String title) {
         final Stage dialog = new Stage();
-        //dialog.initStyle(StageStyle.UTILITY);
+        dialog.initStyle(StageStyle.UTILITY);
         dialog.getIcons().add(qTitle);
         dialog.setTitle(title);
         dialog.setResizable(false);
@@ -110,8 +110,7 @@ public class Dialog {
 
     private static void buildMessageDialog(Stage owner,String message, String title) {
         final Stage dialog = new Stage();
-        //dialog.initStyle(StageStyle.UNDECORATED);
-        //dialog.initStyle(StageStyle.UTILITY);     //Zonder minimise, maar hele opmaak moet gewijzigd worden
+        dialog.initStyle(StageStyle.UTILITY);     //Zonder minimise, maar hele opmaak moet gewijzigd worden
        dialog.getIcons().add(iTitle);
         dialog.setTitle(title);
         dialog.setResizable(false);
