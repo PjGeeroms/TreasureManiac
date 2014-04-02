@@ -104,7 +104,7 @@ public class Dialog {
 
     private static void buildMessageDialog(Stage owner,String message, String title) {
         final Stage dialog = new Stage();
-        dialog.initStyle(StageStyle.UTILITY);     //Zonder minimise, maar hele opmaak moet gewijzigd worden
+        dialog.initStyle(StageStyle.UTILITY);    
        dialog.getIcons().add(iTitle);
         dialog.setTitle(title);
         dialog.setResizable(false);

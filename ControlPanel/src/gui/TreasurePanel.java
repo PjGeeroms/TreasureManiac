@@ -140,17 +140,10 @@ public class TreasurePanel extends GridPane {
         txfDefense.setPromptText("Between " + Treasure.getMIN() + " and " + Treasure.getMAX());
         txfSpeed.setPromptText("Between " + Treasure.getMIN() + " and " + Treasure.getMAX());
         txfAwareness.setPromptText("Between " + Treasure.getMIN() + " and " + Treasure.getMAX());
-        //txfAvatar.setPromptText("max" + (Treasure.getMAX_AVATAR() - 4) + "chars.png/.jpg");
         cbAvatars = FillAvatarChoiceBox();
-        //cbAvatars.getSelectionModel().selectFirst();
 
         final Button addBtn = new Button("Add");
 
-        /*Text title = new Text("ADD TREASURE");
-
-         title.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-         title.setUnderline(true);
-         add(title, 0, 0, 2, 1);*/
         add(ivAvatar, 0, 0, 1, 2);
         add(detail, 1, 0, 1, 2);
 
@@ -180,7 +173,6 @@ public class TreasurePanel extends GridPane {
 
         add(lblAvatar, 0, 11);
         add(cbAvatars, 1, 11);
-        //add(txfAvatar, 1, 11);
 
         add(addBtn, 1, 15);
         GridPane.setHalignment(addBtn, HPos.CENTER);
@@ -337,34 +329,6 @@ public class TreasurePanel extends GridPane {
                 }
         );
 
-        /*txfAvatar.setOnAction(new EventHandler<ActionEvent>() {
-         @Override
-         public void handle(ActionEvent event) {
-         addBtn.requestFocus();
-         }
-         }
-         );
-
-         txfAvatar.setOnKeyReleased(new EventHandler<KeyEvent>() {
-         @Override
-         public void handle(KeyEvent t) {
-         String temp = txfAvatar.getText();
-         if (Main.class.getResourceAsStream("/images/treasures/" + txfAvatar.getText()) != null && temp.length() != 0) {
-         getChildren().remove(ivAvatar);
-         Image newImg = new Image(Main.class.getResourceAsStream("/images/monsters/" + txfAvatar.getText()));
-         ivAvatar = new ImageView(newImg);
-         ivAvatar.setFitHeight(80);
-         ivAvatar.setFitWidth(80);
-         add(ivAvatar, 0, 0);
-         } else if (!ivAvatar.getImage().equals(iDefaultAvatar)) {
-         getChildren().remove(ivAvatar);
-         ivAvatar = new ImageView(iDefaultAvatar);
-         ivAvatar.setFitHeight(80);
-         ivAvatar.setFitWidth(80);
-         add(ivAvatar, 0, 0);
-         }
-         }
-         });*/
         addBtn.setOnAction(
                 new EventHandler<ActionEvent>() {
                     @Override

@@ -24,10 +24,10 @@ public class DetailMonster extends GridPane {
     private ImageView ivPower, ivDefense, ivSpeed, ivAwareness;
 
     protected Label lblDetailName, lblDetailPower, lblDetailDefense, lblDetailSpeed, lblDetailAwareness;
-    private Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
-    private Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
-    private Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
-    private Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
+    private static Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
+    private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
+    private static Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
+    private static Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
 
     /**
      * Constructor 
@@ -74,5 +74,85 @@ public class DetailMonster extends GridPane {
         add(lblDetailSpeed, 2, 1);
         add(lblDetailAwareness, 2, 2);
     }
+        /**
+     *
+     * @param lblDetailName
+     */
+    public void setName(String lblDetailName) {
+        this.lblDetailName.setText(lblDetailName);
+    }
 
+    /**
+     *
+     * @param lblDetailPower
+     */
+    public void setPower(String lblDetailPower) {
+        this.lblDetailPower.setText("" + lblDetailPower);
+    }
+
+    /**
+     *
+     * @param lblDetailDefense
+     */
+    public void setDefense(String lblDetailDefense) {
+        this.lblDetailDefense.setText(lblDetailDefense + "");
+    }
+
+    /**
+     *
+     * @param lblDetailSpeed
+     */
+    public void setSpeed(String lblDetailSpeed) {
+        this.lblDetailSpeed.setText("" + lblDetailSpeed);
+    }
+
+    /**
+     *
+     * @param lblDetailAwareness
+     */
+    public void setAwareness(String lblDetailAwareness) {
+        this.lblDetailAwareness.setText("" + lblDetailAwareness);
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public Label getLblDetailName() {
+        return lblDetailName;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public Label getLblDetailPower() {
+        return lblDetailPower;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Label getLblDetailDefense() {
+        return lblDetailDefense;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Label getLblDetailSpeed() {
+        return lblDetailSpeed;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Label getLblDetailAwareness() {
+        return lblDetailAwareness;
+    }
 }

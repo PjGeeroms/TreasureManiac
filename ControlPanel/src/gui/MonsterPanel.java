@@ -11,6 +11,7 @@ import exceptions.EmptyArgumentException;
 import exceptions.ImageNotSelectedException;
 import exceptions.OutOfRangeException;
 import java.io.File;
+import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -43,15 +45,17 @@ public class MonsterPanel extends GridPane {
     private DomeinController controller;
     private Monster monster;
     private ImageView ivAvatar, ivPower, ivDefense, ivSpeed, ivAwareness;
-    private Image iDefaultAvatar = new Image(Main.class.getResourceAsStream("/images/monsters/default.png"));
-    private Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
-    private Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
-    private Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
-    private Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
+    private static Image iDefaultAvatar = new Image(Main.class.getResourceAsStream("/images/icons/default.png"));
+    private static Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
+    private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
+    private static Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
+    private static Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
     private TextField txfId, txfName, txfPower, txfDefense, txfSpeed, txfAwareness, txfAvatar;
     private ChoiceBox cbAvatars;
     private Label lblId, lblName, lblPower, lblDefense, lblSpeed, lblAwareness, lblAvatar, message;
     //protected Label lblDetailName, lblDetailPower, lblDetailDefense, lblDetailSpeed, lblDetailAwareness;
+    private final static File folder = new File("./src/images/monsters/");
+    private static File[] listOfFiles = folder.listFiles();
 
     /**
      * MonsterPanel constructor, creates the addMonsterPanel
@@ -118,8 +122,6 @@ public class MonsterPanel extends GridPane {
      * @return the filled choicebox
      */
     private ChoiceBox FillAvatarChoiceBox() {
-        File folder = new File("./src/images/monsters/");
-        File[] listOfFiles = folder.listFiles();
         ChoiceBox avatars = new ChoiceBox();
 
         for (File avatar : listOfFiles) {
@@ -147,9 +149,7 @@ public class MonsterPanel extends GridPane {
         txfDefense.setPromptText("Between " + Monster.getMIN() + " and " + Monster.getMAX());
         txfSpeed.setPromptText("Between " + Monster.getMIN() + " and " + Monster.getMAX());
         txfAwareness.setPromptText("Between " + Monster.getMIN() + " and " + Monster.getMAX());
-        //txfAvatar.setPromptText("max" + (Monster.getMAX_AVATAR() - 4) + "chars.png/.jpg");
         cbAvatars = FillAvatarChoiceBox();
-        cbAvatars.getSelectionModel().selectFirst();
 
         final Button addBtn = new Button("Add");
 
@@ -178,7 +178,6 @@ public class MonsterPanel extends GridPane {
         add(cbAvatars, 1, 9);
 
         add(addBtn, 1, 15);
-        /*monsterPane.add(methodBtn, 0, 16, 2, 1);*/
         setHalignment(addBtn, HPos.CENTER);
 
         txfName.setOnAction(new EventHandler<ActionEvent>() {
@@ -192,9 +191,9 @@ public class MonsterPanel extends GridPane {
         txfName.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                detail.lblDetailName.setText(txfName.getText());
-                if (detail.lblDetailName.getText().length() == 0) {
-                    detail.lblDetailName.setText("Name");
+                detail.setName(txfName.getText());
+                if (txfName.getText().length() == 0) {
+                    detail.setName("Name");
                 }
             }
         });
@@ -210,9 +209,9 @@ public class MonsterPanel extends GridPane {
         txfPower.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                detail.lblDetailPower.setText(txfPower.getText());
+                detail.setPower(txfPower.getText());
                 if (txfPower.getText().length() == 0) {
-                    detail.lblDetailPower.setText("0");
+                    detail.setPower("0");
                 }
             }
         });
@@ -228,9 +227,9 @@ public class MonsterPanel extends GridPane {
         txfDefense.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                detail.lblDetailDefense.setText(txfDefense.getText());
+                detail.setDefense(txfDefense.getText());
                 if (txfDefense.getText().length() == 0) {
-                    detail.lblDetailDefense.setText("0");
+                    detail.setDefense("0");
                 }
             }
         });
@@ -246,9 +245,9 @@ public class MonsterPanel extends GridPane {
         txfSpeed.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                detail.lblDetailSpeed.setText(txfSpeed.getText());
+                detail.setSpeed(txfSpeed.getText());
                 if (txfSpeed.getText().length() == 0) {
-                    detail.lblDetailSpeed.setText("0");
+                    detail.setSpeed("0");
                 }
             }
         });
@@ -256,7 +255,8 @@ public class MonsterPanel extends GridPane {
         txfAwareness.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                txfAvatar.requestFocus();
+                cbAvatars.requestFocus();
+                cbAvatars.show();
             }
         }
         );
@@ -264,31 +264,39 @@ public class MonsterPanel extends GridPane {
         txfAwareness.setOnKeyReleased(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent t) {
-                detail.lblDetailAwareness.setText(txfAwareness.getText());
+                detail.setAwareness(txfAwareness.getText());
                 if (txfAwareness.getText().length() == 0) {
-                    detail.lblDetailAwareness.setText("0");
+                    detail.setAwareness("0");
                 }
             }
         });
 
-        txfAvatar.setOnAction(new EventHandler<ActionEvent>() {
+        cbAvatars.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void changed(ObservableValue<? extends String> ov, String oldVal, String newVal) {
+                if (newVal != null) {
+                    Image newImg = new Image(Main.class.getResourceAsStream("/images/monsters/" + newVal));
+                    ivAvatar.setImage(newImg);
+                }
+
                 addBtn.requestFocus();
             }
         }
         );
 
-        cbAvatars.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-
-            @Override
-            public void changed(ObservableValue<? extends Number> ov, Number value, Number newValue) {
-                String temp = cbAvatars.getItems().get(newValue.intValue()).toString();
-                iDefaultAvatar = new Image(Main.class.getResourceAsStream("/images/monsters/" + temp));
-                ivAvatar.setImage(iDefaultAvatar);
-            }
-        });
-
+        cbAvatars.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent t
+                    ) {
+                        KeyCode keyCode = t.getCode();
+                        if (keyCode == KeyCode.ENTER) {
+                            addBtn.requestFocus();
+                        }
+                    }
+                }
+        );
+/*
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -355,13 +363,190 @@ public class MonsterPanel extends GridPane {
                 }
             }
         });
+        */
+                addBtn.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event
+                    ) {
+                        Monster monster = new Monster();
+
+                        String name = txfName.getText();
+                        String powerS = txfPower.getText();
+                        String defenseS = txfDefense.getText();
+                        String speedS = txfSpeed.getText();
+                        String awarenessS = txfAwareness.getText();
+                        String avatar = null;
+                        if (!cbAvatars.getSelectionModel().isSelected(-1)) {
+                            avatar = cbAvatars.getSelectionModel().selectedItemProperty().getValue().toString();
+                        }
+
+                        int power, defense, speed, awareness;
+
+                        boolean exceptionOccurred = false;
+
+                        try {
+                            monster.setName(name);
+                        } catch (EmptyArgumentException | OutOfRangeException e) {
+                            txfName.setText("");
+                            detail.setName("Name");
+                            exceptionOccurred = true;
+                            main.setMessage(e.getMessage());
+                            main.setMessageColor(Color.RED);
+                            txfName.requestFocus();
+                        }
+
+                        try {
+                            if (powerS.length() == 0) {
+                                throw new EmptyArgumentException();
+                            }
+                            power = Integer.parseInt(powerS);
+                            monster.setPower(power);
+                        } catch (EmptyArgumentException | OutOfRangeException e) {
+                            txfPower.setText("");
+                            detail.setPower("0");
+                            if (!exceptionOccurred) {
+                                txfPower.requestFocus();
+                                main.setMessage(e.getMessage());
+                                main.setMessageColor(Color.RED);
+                                exceptionOccurred = true;
+                            }
+                        } catch (NumberFormatException nfe) {
+
+                            txfPower.setText("");
+                            detail.setPower("0");
+                            if (!exceptionOccurred) {
+                                txfPower.requestFocus();
+                                main.setMessage("All stats have to be integers!");
+                                main.setMessageColor(Color.RED);
+                                exceptionOccurred = true;
+                            }
+                        }
+                        try {
+
+                            if (defenseS.length() == 0) {
+                                throw new EmptyArgumentException();
+                            }
+                            defense = Integer.parseInt(defenseS);
+                            monster.setDefense(defense);
+                        } catch (EmptyArgumentException | OutOfRangeException e) {
+
+                            txfDefense.setText("");
+                            detail.setDefense("0");
+                            if (!exceptionOccurred) {
+                                txfDefense.requestFocus();
+                                main.setMessage(e.getMessage());
+                                main.setMessageColor(Color.RED);
+                                exceptionOccurred = true;
+                            }
+                        } catch (NumberFormatException nfe) {
+                            txfDefense.setText("");
+                            detail.setDefense("0");
+                            if (!exceptionOccurred) {
+                                txfDefense.requestFocus();
+                                main.setMessage("All stats have to be integers!");
+                                main.setMessageColor(Color.RED);
+                                exceptionOccurred = true;
+                            }
+                        }
+                        try {
+
+                            if (speedS.length() == 0) {
+                                throw new EmptyArgumentException();
+                            }
+                            speed = Integer.parseInt(speedS);
+                            monster.setSpeed(speed);
+                        } catch (EmptyArgumentException | OutOfRangeException e) {
+                            txfSpeed.setText("");
+                            detail.setSpeed("0");
+                            if (!exceptionOccurred) {
+                                txfSpeed.requestFocus();
+                                main.setMessage(e.getMessage());
+                                main.setMessageColor(Color.RED);
+                                exceptionOccurred = true;
+                            }
+                        } catch (NumberFormatException nfe) {
+                            txfSpeed.setText("");
+                            detail.setSpeed("0");
+                            if (!exceptionOccurred) {
+                                main.setMessage("All stats have to be integers!");
+                                main.setMessageColor(Color.RED);
+                                txfSpeed.requestFocus();
+                                exceptionOccurred = true;
+                            }
+                        }
+                        try {
+
+                            if (awarenessS.length() == 0) {
+                                throw new EmptyArgumentException();
+                            }
+                            awareness = Integer.parseInt(awarenessS);
+                            monster.setAwareness(awareness);
+                        } catch (EmptyArgumentException | OutOfRangeException e) {
+                            txfAwareness.setText("");
+                            detail.setAwareness("0");
+                            if (!exceptionOccurred) {
+                                main.setMessage(e.getMessage());
+                                main.getMessage().setTextFill(Color.RED);
+                                txfAwareness.requestFocus();
+                                exceptionOccurred = true;
+                            }
+                        } catch (NumberFormatException nfe) {
+                            txfAwareness.setText("");
+                            detail.setAwareness("0");
+                            if (!exceptionOccurred) {
+                                main.setMessage("All stats have to be integers!");
+                                main.setMessageColor(Color.RED);
+                                txfAwareness.requestFocus();
+                                exceptionOccurred = true;
+                            }
+                        }
+
+                        try {
+                            monster.setAvatar(avatar);
+                        } catch (ImageNotSelectedException e) {
+                            if (!exceptionOccurred) {
+                                main.setMessage(e.getMessage());
+                                main.setMessageColor(Color.RED);
+                                txfAvatar.requestFocus();
+                                exceptionOccurred = true;
+                            }
+                        }
+                        if (!exceptionOccurred) {
+                            if (controller.addMonster(monster)) {
+                                txfName.setText("");
+                                detail.setName("Name");
+                                txfPower.setText("");
+                                detail.setPower("0");
+                                txfDefense.setText("");
+                                detail.setDefense("0");
+                                txfSpeed.setText("");
+                                detail.setSpeed("0");
+                                txfAwareness.setText("");
+                                detail.setAwareness("0");
+                                cbAvatars.getSelectionModel().clearSelection();//selectFirst();
+                                ivAvatar.setImage(iDefaultAvatar);
+
+                                main.setMessage("Monster has been added!");
+                                main.setMessageColor(Color.GREEN);
+                                List<Monster> monsters = controller.searchAllMonsters();
+                                //main.getMonsterFlowPanel().getChildren().addAll(new MonsterPanel(controller, monsters.get(monsters.size() - 1), main));     //Enkel nodig indien ID ook correct moet worden meegegeven
+                            
+                                MonsterPanel monsterPanel = new MonsterPanel(controller, monster, main, message);
+                                main.monsterFlowPanel.getChildren().addAll(monsterPanel);
+                            }
+                        }
+                    }
+                }
+        );
+
     }
 
     /**
      * Creates the monster overview window
      * @param monster The monster that should be showed
      */
-    private void monsterView(Monster monster) {
+    private void monsterView(final Monster monster) {
         final int Id = monster.getId();
         final String avatar = monster.getAvatar();
         ivPower = new ImageView(iPower);
@@ -392,13 +577,25 @@ public class MonsterPanel extends GridPane {
         lblDefense = new Label(String.valueOf(monster.getDefense()), ivDefense);
         lblSpeed = new Label(String.valueOf(monster.getSpeed()), ivSpeed);
         lblAwareness = new Label(String.valueOf(monster.getAwareness()), ivAwareness);
+                lblAvatar = new Label(monster.getAvatar());
+                cbAvatars = FillAvatarChoiceBox();
+
+        List items = cbAvatars.getItems();
+        for (int i = 0;
+                i < items.size();
+                i++) //Of beter gewoon geselecteerde item meegeven aan buildTreasurePane
+        {
+            if (items.get(i).toString().equals(lblAvatar.getText())) {
+                cbAvatars.getSelectionModel().select(items.get(i));
+            }
+        }
 
         txfName.setOpacity(0);
-        txfAvatar.setOpacity(0);
         txfPower.setOpacity(0);
         txfSpeed.setOpacity(0);
         txfAwareness.setOpacity(0);
         txfDefense.setOpacity(0);
+        cbAvatars.setOpacity(0);
 
         txfPower.setMaxWidth(40);
         txfDefense.setMaxWidth(40);
@@ -424,7 +621,7 @@ public class MonsterPanel extends GridPane {
         add(txfDefense, 1, 2);
         add(txfSpeed, 3, 1);
         add(txfAwareness, 3, 2);
-        add(txfAvatar, 1, 3, 3, 1);
+        add(cbAvatars, 1, 3, 3, 1);
 
         add(btnUpdate, 0, 1);
         setHalignment(btnUpdate, HPos.CENTER);
@@ -476,17 +673,34 @@ public class MonsterPanel extends GridPane {
                     @Override
                     public void handle(ActionEvent event
                     ) {
-                        txfAvatar.requestFocus();
+                        cbAvatars.requestFocus();
                     }
                 }
         );
 
-        txfAvatar.setOnAction(
-                new EventHandler<ActionEvent>() {
+                cbAvatars.getSelectionModel()
+                .selectedIndexProperty().addListener(new ChangeListener<Number>() {
+
                     @Override
-                    public void handle(ActionEvent event
+                    public void changed(ObservableValue<? extends Number> ov, Number value, Number newValue
                     ) {
+                        String temp = cbAvatars.getItems().get(newValue.intValue()).toString();
+                        Image newImg = new Image(Main.class.getResourceAsStream("/images/monsters/" + temp));
+                        ivAvatar.setImage(newImg);
                         btnUpdate.requestFocus();
+                    }
+                }
+                );
+        
+        cbAvatars.setOnKeyPressed(
+                new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent t
+                    ) {
+                        KeyCode keyCode = t.getCode();
+                        if (keyCode == KeyCode.ENTER) {
+                            btnUpdate.requestFocus();
+                        }
                     }
                 }
         );
@@ -494,7 +708,7 @@ public class MonsterPanel extends GridPane {
         btnUpdate.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (btnUpdate.getText().equals("Modify")) {
+              /*  if (btnUpdate.getText().equals("Modify")) {
                     txfName.setText(lblName.getText());
                     txfPower.setText(lblPower.getText());
                     txfSpeed.setText(lblSpeed.getText());
@@ -503,7 +717,7 @@ public class MonsterPanel extends GridPane {
                     txfAvatar.setText(avatar);
 
                     txfName.setOpacity(1);
-                    txfAvatar.setOpacity(1);
+                    cbAvatars.setOpacity(1);
 
                     txfPower.setOpacity(1);
                     txfSpeed.setOpacity(1);
@@ -608,8 +822,199 @@ public class MonsterPanel extends GridPane {
                         }
                     }
                 }
-            }
-        });
+            }*/
+                if (btnUpdate.getText().equals("Modify")) {
+                            txfName.setText(lblName.getText());
+                            txfPower.setText(lblPower.getText());
+                            txfSpeed.setText(lblSpeed.getText());
+                            txfDefense.setText(lblDefense.getText());
+                            txfAwareness.setText(lblAwareness.getText());
+                            //txfAvatar.setText(lblAvatar.getText());
+
+                            txfName.setOpacity(1);
+                            cbAvatars.setOpacity(1);
+                            txfPower.setOpacity(1);
+                            txfSpeed.setOpacity(1);
+                            txfAwareness.setOpacity(1);
+                            txfDefense.setOpacity(1);
+
+                            btnUpdate.setText("Update");
+                            txfName.requestFocus();
+                            main.setMessage("Same rules as adding apply!");
+                            main.setMessageColor(Color.GREEN);
+                        } else {
+                            String nameU = txfName.getText();
+                            String powerU = txfPower.getText();
+                            String defenseU = txfDefense.getText();
+                            String speedU = txfSpeed.getText();
+                            String awarenessU = txfAwareness.getText();
+                            String avatarU = cbAvatars.getSelectionModel().getSelectedItem().toString();
+                            int powerUi, defenseUi, speedUi, awarenessUi;
+                            boolean succes = false;
+                            boolean exceptionOccurred = false;
+
+                            try {
+                                monster.setName(nameU);
+                            } catch (EmptyArgumentException | OutOfRangeException e) {
+                                txfName.setText(lblName.getText());
+                                exceptionOccurred = true;
+                                main.setMessage(e.getMessage());
+                                main.setMessageColor(Color.RED);
+                                txfName.requestFocus();
+                            }
+
+                            try {
+                                if (powerU.length() == 0) {
+                                    throw new EmptyArgumentException();
+                                }
+                                powerUi = Integer.parseInt(powerU);
+                                monster.setPower(powerUi);
+                            } catch (EmptyArgumentException | OutOfRangeException e) {
+                                txfPower.setText(lblPower.getText());
+                                if (!exceptionOccurred) {
+                                    txfPower.requestFocus();
+                                    main.setMessage(e.getMessage());
+                                    main.setMessageColor(Color.RED);
+                                    exceptionOccurred = true;
+                                }
+                            } catch (NumberFormatException nfe) {
+
+                                txfPower.setText(lblPower.getText());
+                                if (!exceptionOccurred) {
+                                    txfPower.requestFocus();
+                                    main.setMessage("All stats have to be integers!");
+                                    main.setMessageColor(Color.RED);
+                                    exceptionOccurred = true;
+                                }
+                            }
+                            try {
+
+                                if (defenseU.length() == 0) {
+                                    throw new EmptyArgumentException();
+                                }
+                                defenseUi = Integer.parseInt(defenseU);
+                                monster.setDefense(defenseUi);
+                            } catch (EmptyArgumentException | OutOfRangeException e) {
+
+                                txfDefense.setText(lblDefense.getText());
+                                if (!exceptionOccurred) {
+                                    txfDefense.requestFocus();
+                                    main.setMessage(e.getMessage());
+                                    main.setMessageColor(Color.RED);
+                                    exceptionOccurred = true;
+                                }
+                            } catch (NumberFormatException nfe) {
+                                txfDefense.setText(lblDefense.getText());
+                                if (!exceptionOccurred) {
+                                    txfDefense.requestFocus();
+                                    main.setMessage("All stats have to be integers!");
+                                    main.setMessageColor(Color.RED);
+                                    exceptionOccurred = true;
+                                }
+                            }
+                            try {
+
+                                if (speedU.length() == 0) {
+                                    throw new EmptyArgumentException();
+                                }
+                                speedUi = Integer.parseInt(speedU);
+                                monster.setSpeed(speedUi);
+                            } catch (EmptyArgumentException | OutOfRangeException e) {
+                                txfSpeed.setText(lblSpeed.getText());
+                                if (!exceptionOccurred) {
+                                    txfSpeed.requestFocus();
+                                    main.setMessage(e.getMessage());
+                                    main.setMessageColor(Color.RED);
+                                    exceptionOccurred = true;
+                                }
+                            } catch (NumberFormatException nfe) {
+                                txfSpeed.setText(lblSpeed.getText());
+                                if (!exceptionOccurred) {
+                                    main.setMessage("All stats have to be integers!");
+                                    main.setMessageColor(Color.RED);
+                                    txfSpeed.requestFocus();
+                                    exceptionOccurred = true;
+                                }
+                            }
+                            try {
+
+                                if (awarenessU.length() == 0) {
+                                    throw new EmptyArgumentException();
+                                }
+                                awarenessUi = Integer.parseInt(awarenessU);
+                                monster.setAwareness(awarenessUi);
+                            } catch (EmptyArgumentException | OutOfRangeException e) {
+                                txfAwareness.setText(lblAwareness.getText());
+                                if (!exceptionOccurred) {
+                                    main.setMessage(e.getMessage());
+                                    main.setMessageColor(Color.RED);
+                                    txfAwareness.requestFocus();
+                                    exceptionOccurred = true;
+                                }
+                            } catch (NumberFormatException nfe) {
+                                txfAwareness.setText(lblAwareness.getText());
+                                if (!exceptionOccurred) {
+                                    main.setMessage("All stats have to be integers!");
+                                    main.setMessageColor(Color.RED);
+                                    txfAwareness.requestFocus();
+                                    exceptionOccurred = true;
+                                }
+                            }
+
+                            /* try {*/           //kan geen exception meer optreden
+                            monster.setAvatar(avatarU);
+                            /* } catch (EmptyArgumentException | OutOfRangeException | InvalidImageException | ImageNotFoundException e) {
+                             if (!exceptionOccurred) {
+                             main.setMessage(e.getMessage());
+                             main.getMessage().setTextFill(Color.RED);
+                             txfAvatar.requestFocus();
+                             exceptionOccurred = true;
+                             }
+                             //txfAvatar.setText(lblAvatar.getText());
+                             cbAvatars.getSelectionModel().selectFirst();
+                             }*/
+                            if (!exceptionOccurred) {
+                                if (controller.updateMonster(monster)) {
+
+                                    if (!lblAvatar.getText().equals(avatarU)) {
+                                        //getChildren().remove(ivAvatar);
+                                        Image newImg = new Image(Main.class.getResourceAsStream("/images/monsters/" + avatarU));
+                                        ivAvatar.setImage(newImg);
+//ivAvatar = new ImageView(newImg);
+                                        //ivAvatar.setFitHeight(80);
+                                        // ivAvatar.setFitWidth(80);
+                                        // add(ivAvatar, 0, 0, 1, 2);
+                                    }
+
+                                    lblName.setText(txfName.getText());
+                                    lblPower.setText(txfPower.getText());
+                                    lblSpeed.setText(txfSpeed.getText());
+                                    lblDefense.setText(txfDefense.getText());
+                                    lblAwareness.setText(txfAwareness.getText());
+                                    lblAvatar.setText(avatarU);
+
+                                    txfName.setOpacity(0);
+                                    cbAvatars.setOpacity(0);
+                                    txfPower.setOpacity(0);
+                                    txfSpeed.setOpacity(0);
+                                    txfAwareness.setOpacity(0);
+                                    txfDefense.setOpacity(0);
+
+                                    main.setMessage("Monster has been updated!");
+                                    main.setMessageColor(Color.GREEN);
+                                    btnUpdate.setText("Modify");
+
+                                    txfName.setText("");
+                                    txfPower.setText("");
+                                    txfSpeed.setText("");
+                                    txfDefense.setText("");
+                                    txfAwareness.setText("");
+                                }
+                            }
+                        }
+                    }
+                }
+        );
 
         final MonsterPanel monsterPanel = this;
         btnDelete.setOnAction(
@@ -751,15 +1156,6 @@ public class MonsterPanel extends GridPane {
                 }
         );
 
-        txfAvatar.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event
-                    ) {
-                        updateBtn.requestFocus();
-                    }
-                }
-        );
 
         updateBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
