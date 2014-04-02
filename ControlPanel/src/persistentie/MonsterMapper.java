@@ -275,4 +275,32 @@ public class MonsterMapper {
             return false;
         }
     }
+
+    /**
+     * Test if a monster is connected to treasure(s)
+     *
+     * @param id the id of the monster whose connection is tested
+     * @return 0 if is connected, 1 if it isn't and -1 if an unexpected error
+     * occurred
+     */
+    public int isUnconnected(int id) {
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            PreparedStatement queryAllLinks = conn.prepareStatement(
+                    "select * from Treasures_has_Monsters\n"
+                    + "WHERE Monster_id=?");
+
+            queryAllLinks.setInt(1, id);
+            try (ResultSet rs = queryAllLinks.executeQuery()) {
+                if (rs.next()) {
+                    return 0;
+                }
+                return 1;
+            }
+        } catch (SQLException ex) {
+            for (Throwable t : ex) {
+                t.printStackTrace();
+            }
+            return -1;              //-1 bij een error
+        }
+    }
 }

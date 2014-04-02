@@ -1,4 +1,4 @@
-//NIET voor iteratie 1
+//NIET voor iteratie 2
 package domein;
 
 /**
@@ -19,7 +19,7 @@ public class Hero {
     private final static int MIN = 0;
 
     /**
-     * Create a Hero object with standard values
+     * Create a Hero object with default values
      */
     public Hero() {
         this("", "", 0, 0, 0, 0);
@@ -46,7 +46,6 @@ public class Hero {
     }                                               //Bij het spel zelf ervoor zorgen dat alle nodige waarden zijn ingegeven, meerdere constructors zijn niet nodig
 
     /**
-     * will return the hero's power
      *
      * @return the power of the hero
      */
@@ -55,16 +54,15 @@ public class Hero {
     }
 
     /**
-     * set the hero's power
+     * Sets the hero's power
      *
-     * @param power changes the hero's power
+     * @param power new value for power
      */
     public void setPower(int power) {
         this.power = (power >= MIN && power <= MAX) ? power : MIN;     //Eigenschappen liggen tussen 0 en 8
     }
 
     /**
-     * will return the hero's defense
      *
      * @return the defense of the hero
      */
@@ -73,16 +71,15 @@ public class Hero {
     }
 
     /**
-     * set the hero's defense
+     * Sets the hero's defense
      *
-     * @param defense changes the hero's defense
+     * @param defense new value for defense
      */
     public void setDefense(int defense) {
         this.defense = (defense >= MIN && defense <= MAX) ? defense : MIN;
     }
 
     /**
-     * will return the hero's speed
      *
      * @return the speed of the hero
      */
@@ -91,34 +88,33 @@ public class Hero {
     }
 
     /**
-     * set the hero's speed
+     * Sets the hero's speed
      *
-     * @param speed changes the hero's speed
+     * @param speed new value for speed
      */
     public void setSpeed(int speed) {
         this.speed = (speed >= MIN && speed <= MAX) ? speed : MIN;
     }
 
     /**
-     * will return the hero's awareness
      *
-     * @return the awareness of the awareness
+     * @return the awareness of the hero
      */
     public double getAwareness() {
         return awareness;
     }
 
     /**
-     * set the hero's awareness
+     * Sets the hero's awareness
      *
-     * @param awareness changes the hero's awareness
+     * @param awareness new value for awareness
      */
     public void setAwareness(int awareness) {
         this.awareness = (awareness >= MIN && awareness <= MAX) ? awareness : MIN;
     }
 
     /**
-     * will return the name of the hero
+     * Give the name of the hero
      *
      * @return the hero's name
      */
@@ -127,7 +123,7 @@ public class Hero {
     }
 
     /**
-     * set the hero's name
+     * Set the name of the hero
      *
      * @param name changes the hero's name
      */
@@ -156,7 +152,7 @@ public class Hero {
 
     /**
      *
-     * @return
+     * @return total awareness of the hero
      */
     public int calcTotalAwareness() {
 
@@ -171,7 +167,7 @@ public class Hero {
 
     /**
      *
-     * @return
+     * @return total power of the hero
      */
     public int calcTotalPower() {
         int total = power + inventory.getInvPower();
@@ -185,7 +181,7 @@ public class Hero {
 
     /**
      *
-     * @return
+     * @return total defense of the hero
      */
     public int calcTotalDefense() {
         int total = defense + inventory.getInvDefense();
@@ -199,7 +195,7 @@ public class Hero {
 
     /**
      *
-     * @return
+     * @return total speed of the hero
      */
     public int calcTotalSpeed() {
         int total = speed + inventory.getInvSpeed();

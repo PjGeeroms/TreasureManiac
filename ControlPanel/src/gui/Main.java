@@ -18,16 +18,10 @@ import persistentie.TreasureMapper;
  *
  * @author Robin De Haes
  */
-//To do:
-//1) Alle images op voorhand inladen en enkel view veranderen
-//2) scrollbars
-//3) layout wat verbeteren
 public class Main extends Application {
 
     private static MonsterMapper monsterMapper = new MonsterMapper();
     private static TreasureMapper treasureMapper = new TreasureMapper();
-    private static Label message;
-    private static Label lblDetailName, lblDetailPower, lblDetailDefense, lblDetailSpeed, lblDetailAwareness;
     private static Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
     private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
     private static Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
@@ -35,8 +29,9 @@ public class Main extends Application {
     private static Image logo = new Image(Main.class.getResourceAsStream("/images/icons/Logo_icon.png"));
 
     /**
+     * Launches the GUI
      *
-     * @param stage
+     * @param stage the main stage in which the GUI will be displayed
      */
     @Override
     public void start(Stage stage) {
@@ -44,7 +39,7 @@ public class Main extends Application {
         MainPanel root = new MainPanel(controller);
 
         DetailMonster detailMonster = new DetailMonster(controller);
-        MonsterPanel monsterPanel = new MonsterPanel(controller, detailMonster, root, message);
+        MonsterPanel monsterPanel = new MonsterPanel(controller, detailMonster, root);
 
         DetailTreasure detailTreasure = new DetailTreasure(controller);
         TreasurePanel treasurePanel = new TreasurePanel(controller, detailTreasure, root);

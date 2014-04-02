@@ -77,82 +77,47 @@ public class DetailMonster extends GridPane {
     }
 
     /**
+     * Set the text of the name-label
      *
-     * @param lblDetailName
+     * @param lblDetailName new text in name-label
      */
     public void setName(String lblDetailName) {
         this.lblDetailName.setText(lblDetailName);
     }
 
     /**
+     * Set the text of the power-label
      *
-     * @param lblDetailPower
+     * @param lblDetailPower new text in power-label
      */
     public void setPower(String lblDetailPower) {
         this.lblDetailPower.setText("" + lblDetailPower);
     }
 
     /**
+     * Set the text of the defense-label
      *
-     * @param lblDetailDefense
+     * @param lblDetailDefense new text in defense-label
      */
     public void setDefense(String lblDetailDefense) {
         this.lblDetailDefense.setText(lblDetailDefense + "");
     }
 
     /**
+     * Set the text of the speed-label
      *
-     * @param lblDetailSpeed
+     * @param lblDetailSpeed new text in speed-label
      */
     public void setSpeed(String lblDetailSpeed) {
         this.lblDetailSpeed.setText("" + lblDetailSpeed);
     }
 
     /**
+     * Set the text of the awareness-label
      *
-     * @param lblDetailAwareness
+     * @param lblDetailAwareness new text in awareness-label
      */
     public void setAwareness(String lblDetailAwareness) {
         this.lblDetailAwareness.setText("" + lblDetailAwareness);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getLblDetailName() {
-        return lblDetailName;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getLblDetailPower() {
-        return lblDetailPower;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getLblDetailDefense() {
-        return lblDetailDefense;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getLblDetailSpeed() {
-        return lblDetailSpeed;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getLblDetailAwareness() {
-        return lblDetailAwareness;
     }
 }
