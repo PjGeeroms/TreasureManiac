@@ -32,8 +32,8 @@ public class Main extends Application {
     private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
     private static Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
     private static Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
-     private static Image logo = new Image(Main.class.getResourceAsStream("/images/icons/Logo_icon.png"));
-    
+    private static Image logo = new Image(Main.class.getResourceAsStream("/images/icons/Logo_icon.png"));
+
     /**
      *
      * @param stage

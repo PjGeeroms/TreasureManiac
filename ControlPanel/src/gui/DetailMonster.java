@@ -30,7 +30,8 @@ public class DetailMonster extends GridPane {
     private static Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
 
     /**
-     * Constructor 
+     * Constructor
+     *
      * @param controller the domain controller
      */
     public DetailMonster(DomeinController controller) {
@@ -74,7 +75,8 @@ public class DetailMonster extends GridPane {
         add(lblDetailSpeed, 2, 1);
         add(lblDetailAwareness, 2, 2);
     }
-        /**
+
+    /**
      *
      * @param lblDetailName
      */
@@ -114,7 +116,6 @@ public class DetailMonster extends GridPane {
         this.lblDetailAwareness.setText("" + lblDetailAwareness);
     }
 
-
     /**
      *
      * @return
@@ -122,7 +123,6 @@ public class DetailMonster extends GridPane {
     public Label getLblDetailName() {
         return lblDetailName;
     }
-
 
     /**
      *
