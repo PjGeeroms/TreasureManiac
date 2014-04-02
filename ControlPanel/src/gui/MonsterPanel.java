@@ -9,15 +9,10 @@ import domein.DomeinController;
 import domein.Monster;
 import exceptions.EmptyArgumentException;
 import exceptions.ImageNotSelectedException;
-import exceptions.InvalidImageException;
 import exceptions.OutOfRangeException;
-import java.awt.List;
 import java.io.File;
-import java.util.ArrayList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -118,6 +113,10 @@ public class MonsterPanel extends GridPane {
         txfAvatar = new TextField();
     }
 
+    /**
+     * Creates the choicebox with available pictures
+     * @return the filled choicebox
+     */
     private ChoiceBox FillAvatarChoiceBox() {
         File folder = new File("./src/images/monsters/");
         File[] listOfFiles = folder.listFiles();
@@ -358,6 +357,10 @@ public class MonsterPanel extends GridPane {
         });
     }
 
+    /**
+     * Creates the monster overview window
+     * @param monster The monster that should be showed
+     */
     private void monsterView(Monster monster) {
         final int Id = monster.getId();
         final String avatar = monster.getAvatar();
@@ -629,7 +632,7 @@ public class MonsterPanel extends GridPane {
     /**
      * Builds the Pane to edit/delete monsters
      *
-     * @param monster
+     * @param monster the monster to be used
      */
     private void addPane(Monster monster) {
         final Text txtId, txtName, txtPower, txtDefense, txtSpeed, txtAwareness, txtAvatar;
