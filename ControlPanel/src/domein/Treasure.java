@@ -26,7 +26,6 @@ public class Treasure {
     private final static int MIN = -3;
     private final static int MAX_NAME = 25;
     private final static int MAX_DESCRIPTION = 50;
-    //private final static int MAX_AVATAR = 25;
 
     /**
      * Default constructor to create a treasure with default values

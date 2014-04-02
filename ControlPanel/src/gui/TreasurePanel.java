@@ -602,7 +602,7 @@ public class TreasurePanel extends GridPane {
         lblSpeed = new Label(String.valueOf(treasure.getSpeed()), ivSpeed);
         lblAwareness = new Label(String.valueOf(treasure.getAwareness()), ivAwareness);
         lblValue = new Label(String.valueOf(treasure.getValue()), ivValue);
-        lblAvatar = new Label(treasure.getAvatar());
+        lblAvatar = new Label(avatar);
         cbAvatars = FillAvatarChoiceBox();
 
         List items = cbAvatars.getItems();
@@ -1079,15 +1079,15 @@ public class TreasurePanel extends GridPane {
                         if (unconnected == 1) {
                             succes = controller.deleteTreasure(Id);
                         } else if (unconnected == 0) {
-                           /*Response answer=FXOptionPane.showConfirmDialog(null, "Treasure is still connected with monster(s)!\n"
+                            /*Response answer=FXOptionPane.showConfirmDialog(null, "Treasure is still connected with monster(s)!\n"
+                             + "Do you want to delete it anyway?", "Break all links?");
+                             if(answer.equals(Response.YES))
+                             {
+                             succes = controller.deleteTreasure(Id);
+                             }*/
+                            Response answer = Dialog.showConfirmationDialog(null, "Treasure is still connected with monster(s)!\n"
                                     + "Do you want to delete it anyway?", "Break all links?");
-                            if(answer.equals(Response.YES))
-                            {
-                                succes = controller.deleteTreasure(Id);
-                            }*/
-                            Response answer = Dialog.showConfirmationDialog(null,"Treasure is still connected with monster(s)!\n"
-                                    + "Do you want to delete it anyway?", "Break all links?");
-                            if (answer==Response.YES) {
+                            if (answer == Response.YES) {
                                 succes = controller.deleteTreasure(Id);
                             }
                         }

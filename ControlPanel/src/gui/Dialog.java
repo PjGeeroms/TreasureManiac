@@ -42,11 +42,12 @@ public class Dialog {
     private static Image iTitle = (new Image(Main.class.getResourceAsStream("/images/icons/iTitle_icon.png")));
     private static Image qTitle = (new Image(Main.class.getResourceAsStream("/images/icons/qTitle_icon.png")));
 
-         public enum Response {
+    public enum Response {
+
         NO, YES, CLOSED
     };
-     
-    private static Response buildConfirmationDialog(Stage owner,String message, String title) {
+
+    private static Response buildConfirmationDialog(Stage owner, String message, String title) {
         final Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UTILITY);
         dialog.getIcons().add(qTitle);
@@ -67,7 +68,7 @@ public class Dialog {
         question.setFitWidth(60);
         question.fitWidthProperty();
         hBox.getChildren().addAll(question);
-        VBox msg=new VBox();
+        VBox msg = new VBox();
         msg.getChildren().addAll(new Label(message));
         msg.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(msg);
@@ -102,10 +103,10 @@ public class Dialog {
         return btnPressed;
     }
 
-    private static void buildMessageDialog(Stage owner,String message, String title) {
+    private static void buildMessageDialog(Stage owner, String message, String title) {
         final Stage dialog = new Stage();
-        dialog.initStyle(StageStyle.UTILITY);    
-       dialog.getIcons().add(iTitle);
+        dialog.initStyle(StageStyle.UTILITY);
+        dialog.getIcons().add(iTitle);
         dialog.setTitle(title);
         dialog.setResizable(false);
         dialog.initOwner(owner);
@@ -120,9 +121,9 @@ public class Dialog {
         ImageView information = new ImageView(Information);
         information.setFitHeight(60);
         information.setFitWidth(60);
-        
+
         hBox.getChildren().addAll(information);
-        VBox msg=new VBox();
+        VBox msg = new VBox();
         msg.getChildren().addAll(new Label(message));
         msg.setAlignment(Pos.CENTER);
         hBox.getChildren().addAll(msg);
@@ -148,14 +149,14 @@ public class Dialog {
         dialog.showAndWait();
     }
 
-    public static Response showConfirmationDialog(Stage owner,String message, String title) {
-        buildConfirmationDialog(owner,message, title);
+    public static Response showConfirmationDialog(Stage owner, String message, String title) {
+        buildConfirmationDialog(owner, message, title);
         Response answer = btnPressed;
         btnPressed = null;              //Niet echt nodig...
         return answer;
     }
 
-    public static void showMessageDialog(Stage owner,String message, String title) {
-        buildMessageDialog(owner,message, title);
+    public static void showMessageDialog(Stage owner, String message, String title) {
+        buildMessageDialog(owner, message, title);
     }
 }

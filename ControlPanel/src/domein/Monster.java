@@ -25,7 +25,6 @@ public class Monster {
     private final static int maxTreasures = 3;
     private final static int MAX_NAME = 25;
     private final static int MAX_DESCRIPTION = 50;
-    private final static int MAX_AVATAR = 25;
 
     /**
      * Default constructor to create a monster with default values
@@ -295,13 +294,4 @@ public class Monster {
     public static int getMAX_DESCRIPTION() {
         return MAX_DESCRIPTION;
     }
-
-    /**
-     *
-     * @return
-     */
-    public static int getMAX_AVATAR() {
-        return MAX_AVATAR;
-    }
-
 }

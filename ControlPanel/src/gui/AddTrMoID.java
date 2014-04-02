@@ -108,7 +108,7 @@ public class AddTrMoID extends GridPane {
                     }
 
                     controller.addTreasureToMonster(monsterID, treasureID);
-                    Dialog.showMessageDialog(null,"Link between monster and treasure has been established", "Succes!");
+                    Dialog.showMessageDialog(null, "Link between monster and treasure has been established", "Succes!");
                     //JOptionPane.showMessageDialog(null, "Link between monster and treasure has been established", "Succes!", JOptionPane.INFORMATION_MESSAGE);
 
                     //de exceptions catchen    
