@@ -1,4 +1,4 @@
-//NIET voor iteratie 1 (en waarschijnlijk onnodig)
+//NIET voor iteratie 2 (en waarschijnlijk onnodig)
 package domein;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class Inventory {
 
     /**
      *
-     * @return
+     * @return power
      */
     public int getInvPower() {
         return invPower;
@@ -84,7 +84,7 @@ public class Inventory {
 
     /**
      *
-     * @return
+     * @return defense
      */
     public int getInvDefense() {
         return invDefense;
@@ -92,7 +92,7 @@ public class Inventory {
 
     /**
      *
-     * @return
+     * @return speed
      */
     public int getInvSpeed() {
         return invSpeed;
@@ -100,7 +100,7 @@ public class Inventory {
 
     /**
      *
-     * @return
+     * @return awareness
      */
     public int getInvAwareness() {
         return invAwareness;

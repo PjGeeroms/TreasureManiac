@@ -63,13 +63,11 @@ public class MonsterPanel extends GridPane {
      * @param controller The domaincontroller
      * @param detail The detailPane that should be added at the top.
      * @param main The mainPanel where the MonsterPanel will get attached on.
-     * @param message The error message at the bottom
      */
-    public MonsterPanel(DomeinController controller, DetailMonster detail, MainPanel main, Label message) {
+    public MonsterPanel(DomeinController controller, DetailMonster detail, MainPanel main) {
         this.controller = controller;
         this.detail = detail;
         this.main = main;
-        this.message = message;
         settings();
         buildPane();
     }
@@ -80,13 +78,10 @@ public class MonsterPanel extends GridPane {
      * @param controller The domaincontroller
      * @param monster Monster used for data to fill the panel
      * @param main The mainPanel where the MonsterPanel will get attached on.
-     * @param message The error message at the bottom
      */
-    public MonsterPanel(DomeinController controller, Monster monster, MainPanel main, Label message) {
+    public MonsterPanel(DomeinController controller, Monster monster, MainPanel main) {
         this.controller = controller;
         this.main = main;
-        this.message = message;
-        this.monster = monster;
         settings();
         //addPane(monster); // old panel
         monsterView(monster); // new panel
@@ -488,7 +483,7 @@ public class MonsterPanel extends GridPane {
                             detail.setAwareness("0");
                             if (!exceptionOccurred) {
                                 main.setMessage(e.getMessage());
-                                main.getMessage().setTextFill(Color.RED);
+                                main.setMessageColor(Color.RED);;
                                 txfAwareness.requestFocus();
                                 exceptionOccurred = true;
                             }
@@ -514,28 +509,52 @@ public class MonsterPanel extends GridPane {
                             }
                         }
                         if (!exceptionOccurred) {
-                            if (controller.addMonster(monster)) {
-                                txfName.setText("");
-                                detail.setName("Name");
-                                txfPower.setText("");
-                                detail.setPower("0");
-                                txfDefense.setText("");
-                                detail.setDefense("0");
-                                txfSpeed.setText("");
-                                detail.setSpeed("0");
-                                txfAwareness.setText("");
-                                detail.setAwareness("0");
-                                cbAvatars.getSelectionModel().clearSelection();//selectFirst();
-                                ivAvatar.setImage(iDefaultAvatar);
+                            txfName.setText("");
+                            detail.setName("Name");
+                            txfPower.setText("");
+                            detail.setPower("0");
+                            txfDefense.setText("");
+                            detail.setDefense("0");
+                            txfSpeed.setText("");
+                            detail.setSpeed("0");
+                            txfAwareness.setText("");
+                            detail.setAwareness("0");
+                            cbAvatars.getSelectionModel().clearSelection();//selectFirst();
+                            ivAvatar.setImage(iDefaultAvatar);
 
+                            if (!controller.isNewMonster(monster)) {
+                                main.setMessage("Monster already exists. Duplicates aren't allowed!");
+                                main.setMessageColor(Color.RED);
+                            } else if (controller.addMonster(monster)) {
                                 main.setMessage("Monster has been added!");
                                 main.setMessageColor(Color.GREEN);
-                                List<Monster> monsters = controller.searchAllMonsters();
-                                //main.getMonsterFlowPanel().getChildren().addAll(new MonsterPanel(controller, monsters.get(monsters.size() - 1), main));     //Enkel nodig indien ID ook correct moet worden meegegeven
+                                List<Monster> monsters = controller.searchAllMonsters(); //Enkel nodig als correct id moet getoond worden
+                                main.getMonsterFlowPanel().getChildren().addAll(new MonsterPanel(controller, monsters.get(monsters.size() - 1), main));
+                                // main.getMonsterFlowPanel().getChildren().addAll(new MonsterPanel(controller, monster, main));
 
-                                MonsterPanel monsterPanel = new MonsterPanel(controller, monster, main, message);
-                                main.monsterFlowPanel.getChildren().addAll(monsterPanel);
                             }
+                            /* if (controller.addMonster(monster)) {
+                             txfName.setText("");
+                             detail.setName("Name");
+                             txfPower.setText("");
+                             detail.setPower("0");
+                             txfDefense.setText("");
+                             detail.setDefense("0");
+                             txfSpeed.setText("");
+                             detail.setSpeed("0");
+                             txfAwareness.setText("");
+                             detail.setAwareness("0");
+                             cbAvatars.getSelectionModel().clearSelection();//selectFirst();
+                             ivAvatar.setImage(iDefaultAvatar);
+
+                             main.setMessage("Monster has been added!");
+                             main.setMessageColor(Color.GREEN);
+                             //List<Monster> monsters = controller.searchAllMonsters();
+                             //main.getMonsterFlowPanel().getChildren().addAll(new MonsterPanel(controller, monsters.get(monsters.size() - 1), main));     //Enkel nodig indien ID ook correct moet worden meegegeven
+
+                             MonsterPanel monsterPanel = new MonsterPanel(controller, monster, main);
+                             main.monsterFlowPanel.getChildren().addAll(monsterPanel);
+                             }*/
                         }
                     }
                 }
@@ -1022,22 +1041,48 @@ public class MonsterPanel extends GridPane {
                     @Override
                     public void handle(ActionEvent event
                     ) {
-                        boolean succes = controller.deleteMonster(Id);     //eerst db leegmaken
+                        boolean succes = false;
+                        int unconnected = controller.isUnconnectedMonster(Id);
+                        if (unconnected == 1) {
+                            succes = controller.deleteMonster(Id);
+                        } else if (unconnected == 0) {
+                            Dialog.Response answer = Dialog.showConfirmationDialog(null, "Monster still has treasure(s) connected to it!\n"
+                                    + "Do you want to delete it anyway?", "Break all links?");
+                            if (answer == Dialog.Response.YES) {
+                                succes = controller.deleteMonster(Id);
+                            }
+                        }
 
                         if (succes) {
-                            message.setText("Monster has been deleted!");
-                            message.setTextFill(Color.GREEN);
-                            main.monsterFlowPanel.getChildren().removeAll(monsterPanel);
+                            main.setMessage("Monster has been deleted!");
+                            main.setMessageColor(Color.GREEN);
+                            main.getMonsterFlowPanel().getChildren().removeAll(monsterPanel);
                         }
                     }
                 }
         );
+        /*  btnDelete.setOnAction(
+         new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent event
+         ) {
+         boolean succes = controller.deleteMonster(Id);     //eerst db leegmaken
+
+         if (succes) {
+         message.setText("Monster has been deleted!");
+         message.setTextFill(Color.GREEN);
+         main.monsterFlowPanel.getChildren().removeAll(monsterPanel);
+         }
+         }
+         }
+         );*/
     }
 
     /**
      * Builds the Pane to edit/delete monsters
      *
      * @param monster the monster to be used
+     * @deprecated
      */
     private void addPane(Monster monster) {
         final Text txtId, txtName, txtPower, txtDefense, txtSpeed, txtAwareness, txtAvatar;

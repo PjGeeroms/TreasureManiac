@@ -42,7 +42,6 @@ public class TreasurePanel extends GridPane {
     private static Image iDefaultAvatar = new Image(Main.class.getResourceAsStream("/images/icons/default.png"));
     private MainPanel main;
     private DetailTreasure detail;
-    private Treasure treasure;
     private ImageView ivAvatar, ivPower, ivDefense, ivSpeed, ivAwareness, ivValue;
     private static Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
     private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
@@ -56,10 +55,11 @@ public class TreasurePanel extends GridPane {
     private static File[] listOfFiles = folder.listFiles();
 
     /**
+     * Constructor for the TreasurePanel that creates the addPane for treasures
      *
-     * @param controller
-     * @param detail
-     * @param main
+     * @param controller The domaincontroller
+     * @param detail The detailPane that's added at the top of the addPane
+     * @param main The mainPanel where the treasurerPanel will get attached to
      */
     public TreasurePanel(DomeinController controller, DetailTreasure detail, MainPanel main) //DetailTreasure details,
     {
@@ -71,19 +71,23 @@ public class TreasurePanel extends GridPane {
     }
 
     /**
+     * Constructor for the TreasurePanel that creates the panels for showing,
+     * editing and deleting treasures
      *
-     * @param controller
-     * @param treasure
-     * @param main
+     * @param controller The domaincontroller
+     * @param treasure Treasure that will be displayed on the panel
+     * @param main The mainPanel where the treasurePanel will get attached to
      */
     public TreasurePanel(DomeinController controller, Treasure treasure, MainPanel main) {
         this.controller = controller;
         this.main = main;
-        this.treasure = treasure;
         settings();
         buildTreasurePane(treasure);
     }
 
+    /**
+     * Initializes the general settings for a TreasurePanel
+     */
     private void settings() {
         setStyle("-fx-border: 4px solid; -fx-border-color: #9a9a9a;");
         setPadding(new Insets(20));
@@ -110,6 +114,11 @@ public class TreasurePanel extends GridPane {
         txfAvatar = new TextField();
     }
 
+    /**
+     * Creates the choicebox with available treasure-images
+     *
+     * @return the choicebox filled with treasure-images
+     */
     private ChoiceBox FillAvatarChoiceBox() {
         ChoiceBox avatars = new ChoiceBox();
 
@@ -122,7 +131,8 @@ public class TreasurePanel extends GridPane {
     }
 
     /**
-     *
+     * Build the addPane for treasures, will be used in {@link #TreasurePanel(DomeinController, DetailTreasure, MainPanel)
+     * }
      */
     public void buildAddPane() {
         ivAvatar = new ImageView(iDefaultAvatar);
@@ -332,8 +342,7 @@ public class TreasurePanel extends GridPane {
         addBtn.setOnAction(
                 new EventHandler<ActionEvent>() {
                     @Override
-                    public void handle(ActionEvent event
-                    ) {
+                    public void handle(ActionEvent event) {
                         Treasure treasure = new Treasure();
 
                         String name = txfName.getText();
@@ -494,7 +503,7 @@ public class TreasurePanel extends GridPane {
                             detail.setAwareness("0");
                             if (!exceptionOccurred) {
                                 main.setMessage(e.getMessage());
-                                main.getMessage().setTextFill(Color.RED);
+                                main.setMessageColor(Color.RED);
                                 txfAwareness.requestFocus();
                                 exceptionOccurred = true;
                             }
@@ -519,34 +528,38 @@ public class TreasurePanel extends GridPane {
                                 exceptionOccurred = true;
                             }
                         }
-                        if (!exceptionOccurred) {
-                            if (controller.addTreasure(treasure)) {
-                                txfName.setText("");
-                                detail.setName("Name");
-                                txfDescription.setText("");
-                                detail.setDescription("Description");
-                                txfPower.setText("");
-                                detail.setPower("0");
-                                txfDefense.setText("");
-                                detail.setDefense("0");
-                                txfSpeed.setText("");
-                                detail.setSpeed("0");
-                                txfAwareness.setText("");
-                                detail.setAwareness("0");
-                                txfValue.setText("");
-                                detail.setValue("0");
-                                cbAvatars.getSelectionModel().clearSelection();//selectFirst();
-                                ivAvatar.setImage(iDefaultAvatar);
 
-                                //getChildren().remove(ivAvatar);
-                                // ivAvatar.setImage(iDefaultAvatar); //= new ImageView(iDefaultAvatar);
-                                // ivAvatar.setFitHeight(80);
-                                // ivAvatar.setFitWidth(80);
-                                //add(ivAvatar, 0, 0, 1, 2);
+                        if (controller.isNewTreasure(treasure)) {
+
+                        }
+
+                        if (!exceptionOccurred) {
+                            txfName.setText("");
+                            detail.setName("Name");
+                            txfDescription.setText("");
+                            detail.setDescription("Description");
+                            txfPower.setText("");
+                            detail.setPower("0");
+                            txfDefense.setText("");
+                            detail.setDefense("0");
+                            txfSpeed.setText("");
+                            detail.setSpeed("0");
+                            txfAwareness.setText("");
+                            detail.setAwareness("0");
+                            txfValue.setText("");
+                            detail.setValue("0");
+                            cbAvatars.getSelectionModel().clearSelection();//selectFirst();
+                            ivAvatar.setImage(iDefaultAvatar);
+
+                            if (!controller.isNewTreasure(treasure)) {
+                                main.setMessage("Treasure already exists. Duplicates aren't allowed!");
+                                main.setMessageColor(Color.RED);
+                            } else if (controller.addTreasure(treasure)) {
                                 main.setMessage("Treasure has been added!");
                                 main.setMessageColor(Color.GREEN);
-                                List<Treasure> treasures = controller.searchAllTreasures();
+                                List<Treasure> treasures = controller.searchAllTreasures(); //Enkel nodig als correct id moet getoond worden
                                 main.getTreasureFlowPanel().getChildren().addAll(new TreasurePanel(controller, treasures.get(treasures.size() - 1), main));     //Enkel nodig indien ID ook correct moet worden meegegeven
+
                             }
                         }
                     }
@@ -555,8 +568,11 @@ public class TreasurePanel extends GridPane {
     }
 
     /**
+     * Creates a TreasurePanel to be added to the treasures overview flowpanel,
+     * will be used in {@link #TreasurePanel(domein.DomeinController, domein.Treasure, gui.MainPanel)
+     * }
      *
-     * @param treasure
+     * @param treasure The treasure that will be displayed
      */
     public void buildTreasurePane(final Treasure treasure) {
         final int Id = treasure.getId();
@@ -585,11 +601,10 @@ public class TreasurePanel extends GridPane {
                 .getResourceAsStream("/images/treasures/" + avatar));
         ivAvatar = new ImageView(icon);
 
-        ivAvatar.setFitHeight(
-                80);
-        ivAvatar.setFitWidth(
-                80);
+        ivAvatar.setFitHeight(80);
+        ivAvatar.setFitWidth(80);
 
+        //lblId niet meer gebruik in laatste versie
         lblId = new Label("(#" + String.valueOf(treasure.getId()) + ")");
         lblName = new Label(treasure.getName());
 
@@ -606,61 +621,41 @@ public class TreasurePanel extends GridPane {
         cbAvatars = FillAvatarChoiceBox();
 
         List items = cbAvatars.getItems();
-        for (int i = 0;
-                i < items.size();
-                i++) //Of beter gewoon geselecteerde item meegeven aan buildTreasurePane
+        for (int i = 0; i < items.size(); i++) //Of beter gewoon geselecteerde item meegeven aan buildTreasurePane
         {
             if (items.get(i).toString().equals(lblAvatar.getText())) {
                 cbAvatars.getSelectionModel().select(items.get(i));
             }
         }
 
-        txfName.setOpacity(
-                0);
-        cbAvatars.setOpacity(
-                0);
-        txfPower.setOpacity(
-                0);
-        txfSpeed.setOpacity(
-                0);
-        txfAwareness.setOpacity(
-                0);
-        txfDefense.setOpacity(
-                0);
-        txfValue.setOpacity(
-                0);
-        txfDescription.setOpacity(
-                0);
+        txfName.setOpacity(0);
+        cbAvatars.setOpacity(0);
+        txfPower.setOpacity(0);
+        txfSpeed.setOpacity(0);
+        txfAwareness.setOpacity(0);
+        txfDefense.setOpacity(0);
+        txfValue.setOpacity(0);
+        txfDescription.setOpacity(0);
 
-        txfPower.setMaxWidth(
-                45);
-        txfDefense.setMaxWidth(
-                45);
-        txfSpeed.setMaxWidth(
-                45);
-        txfAwareness.setMaxWidth(
-                45);
-        txfValue.setMaxWidth(
-                45);
+        txfPower.setMaxWidth(45);
+        txfDefense.setMaxWidth(45);
+        txfSpeed.setMaxWidth(45);
+        txfAwareness.setMaxWidth(45);
+        txfValue.setMaxWidth(45);
 
         HBox padding1 = new HBox();
 
-        padding1.setMinWidth(
-                20);
+        padding1.setMinWidth(20);
         HBox padding2 = new HBox();
 
-        padding2.setMinWidth(
-                20);
+        padding2.setMinWidth(20);
 
         final Button updateBtn = new Button("Modify");
         final Button deleteBtn = new Button("Delete");
 
-        /* VBox nameDescription=new VBox();
-         nameDescription.getChildren().add(lblName);
-         nameDescription.getChildren().add(lblDescription);*/
         add(ivAvatar, 0, 0, 1, 2);
         add(lblName, 1, 0, 3, 1);
-        add(lblId, 5, 0);
+        //add(lblId, 5, 0);
         add(lblDescription, 1, 1, 5, 1);
         add(lblPower, 1, 2);
         add(lblDefense, 1, 3);
@@ -783,20 +778,6 @@ public class TreasurePanel extends GridPane {
                 }
         );
 
-        /*
-         txfAvatar.setOnAction(
-         new EventHandler<ActionEvent>() {
-         @Override
-         public void handle(ActionEvent event
-         ) {
-         updateBtn.requestFocus();
-         }
-         }
-         );*/
-
-        /*Image img = new Image(Main.class.getResourceAsStream("/images/treasures/" + avatar));
-         final ImageView view = new ImageView(img);
-         GridPane.setHalignment(view, HPos.CENTER);  */         //CENTER
         updateBtn.setOnAction(
                 new EventHandler<ActionEvent>() {
                     @Override
@@ -837,7 +818,6 @@ public class TreasurePanel extends GridPane {
                             String awarenessU = txfAwareness.getText();
                             String avatarU = cbAvatars.getSelectionModel().getSelectedItem().toString();
                             int valueUi, powerUi, defenseUi, speedUi, awarenessUi;
-                            boolean succes = false;
                             boolean exceptionOccurred = false;
 
                             try {
@@ -1058,12 +1038,6 @@ public class TreasurePanel extends GridPane {
                         if (unconnected == 1) {
                             succes = controller.deleteTreasure(Id);
                         } else if (unconnected == 0) {
-                            /*Response answer=FXOptionPane.showConfirmDialog(null, "Treasure is still connected with monster(s)!\n"
-                             + "Do you want to delete it anyway?", "Break all links?");
-                             if(answer.equals(Response.YES))
-                             {
-                             succes = controller.deleteTreasure(Id);
-                             }*/
                             Response answer = Dialog.showConfirmationDialog(null, "Treasure is still connected with monster(s)!\n"
                                     + "Do you want to delete it anyway?", "Break all links?");
                             if (answer == Response.YES) {

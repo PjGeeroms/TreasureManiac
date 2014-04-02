@@ -8,7 +8,7 @@ package gui;
 import domein.DomeinController;
 import exceptions.EmptyArgumentException;
 import exceptions.OutOfRangeException;
-import exceptions.TreasureIsUnconnectedException;
+import exceptions.UnconnectedException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -109,7 +109,7 @@ public class RemoveTrMoID extends GridPane {
                     controle = controller.isUnconnectedTreasure(treasureID);
 
                     if (controle == 1) {
-                        throw new TreasureIsUnconnectedException();
+                        throw new UnconnectedException();
                     }
                     if (controle == -1) {
                         throw new SQLException();
@@ -128,8 +128,8 @@ public class RemoveTrMoID extends GridPane {
                 } catch (SQLException sqle) {
                     main.setMessage("An error has occured in the database!");
                     main.setMessageColor(Color.RED);
-                } catch (TreasureIsUnconnectedException tiue) {
-                    main.setMessage(tiue.getMessage());
+                } catch (UnconnectedException ue) {
+                    main.setMessage(ue.getMessage());
                     main.setMessageColor(Color.RED);
                 } catch (OutOfRangeException oore) {
                     main.setMessage(oore.getMessage() + " Must be a positive number!");

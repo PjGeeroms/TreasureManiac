@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 
 /**
  *
- * @author pieterjan
+ * @author pieterjan, Steve, Simon en Robin
  */
 public class MainPanel extends BorderPane {
 
@@ -43,42 +43,6 @@ public class MainPanel extends BorderPane {
     public MainPanel(DomeinController controller) {
         this.controller = controller;
         buildGui();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public FlowPane getMonsterFlowPanel() {
-        return monsterFlowPanel;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public FlowPane getTreasureFlowPanel() {
-        return treasureFlowPanel;
-    }
-
-    /**
-     *
-     * @param m
-     */
-    public void setMessage(String m) {
-        message.setText(m);
-    }
-
-    public void setMessageColor(Color color) {
-        message.setTextFill(color);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Label getMessage() {
-        return message;
     }
 
     /**
@@ -115,34 +79,6 @@ public class MainPanel extends BorderPane {
         setCenter(center);
     }
 
-    private void initializeRelationsTab(Tab tab) {
-
-        linkPanel = new FlowPane(Orientation.VERTICAL);
-        linkPanel.setPadding(new Insets(10));
-        linkPanel.setHgap(10);
-        linkPanel.setVgap(10);
-
-        showPanel = new FlowPane(Orientation.HORIZONTAL);
-        showPanel.setPadding(new Insets(10));
-        showPanel.setHgap(10);
-        showPanel.setVgap(10);
-
-        AddTrMoID other1 = new AddTrMoID(this);
-        RemoveTrMoID other2 = new RemoveTrMoID(this);
-        ShowTrMoID other3 = new ShowTrMoID(this);
-
-        linkPanel.getChildren().addAll(other1);
-        linkPanel.getChildren().addAll(other2);
-        showPanel.getChildren().addAll(other3);
-
-        innerTab = new BorderPane();
-        innerTab.setLeft(linkPanel);
-        innerTab.setCenter(showPanel);
-
-        tab.setContent(innerTab);
-
-    }
-
     /**
      * Creates the Monster Panel
      *
@@ -175,7 +111,7 @@ public class MainPanel extends BorderPane {
 
         // add Monster panel
         DetailMonster detail = new DetailMonster(controller);
-        MonsterPanel monsterPanel = new MonsterPanel(controller, detail, this, message);
+        MonsterPanel monsterPanel = new MonsterPanel(controller, detail, this);
         monsterFunctionPanel.getChildren().addAll(monsterPanel);
 
         // show all Monsters in the database on launch
@@ -202,11 +138,16 @@ public class MainPanel extends BorderPane {
         List<Monster> allMonsters = controller.searchAllMonsters();
 
         for (Monster monster : allMonsters) {
-            MonsterPanel monsterPanel = new MonsterPanel(controller, monster, this, message);
+            MonsterPanel monsterPanel = new MonsterPanel(controller, monster, this);
             panel.getChildren().addAll(monsterPanel);
         }
     }
 
+    /**
+     * Creates the Treasures Panel
+     *
+     * @param tab Tab where the Panel should be initialized.
+     */
     private void initializeTreasuresTab(Tab tab) {
         treasureFunctionPanel = new FlowPane(Orientation.VERTICAL);
         treasureFunctionPanel.setPadding(new Insets(10));
@@ -252,6 +193,11 @@ public class MainPanel extends BorderPane {
         tab.setContent(innerTab);
     }
 
+    /**
+     * Show all treasures in the database
+     *
+     * @param panel The flowpane where the treasurePanels should be added.
+     */
     private void showAllTreasures(FlowPane panel) {
         List<Treasure> allTreasures = controller.searchAllTreasures();
 
@@ -261,4 +207,66 @@ public class MainPanel extends BorderPane {
         }
     }
 
+    private void initializeRelationsTab(Tab tab) {
+
+        linkPanel = new FlowPane(Orientation.VERTICAL);
+        linkPanel.setPadding(new Insets(10));
+        linkPanel.setHgap(10);
+        linkPanel.setVgap(10);
+
+        showPanel = new FlowPane(Orientation.HORIZONTAL);
+        showPanel.setPadding(new Insets(10));
+        showPanel.setHgap(10);
+        showPanel.setVgap(10);
+
+        AddTrMoID other1 = new AddTrMoID(this);
+        RemoveTrMoID other2 = new RemoveTrMoID(this);
+        ShowTrMoID other3 = new ShowTrMoID(this);
+
+        linkPanel.getChildren().addAll(other1);
+        linkPanel.getChildren().addAll(other2);
+        showPanel.getChildren().addAll(other3);
+
+        innerTab = new BorderPane();
+        innerTab.setLeft(linkPanel);
+        innerTab.setCenter(showPanel);
+
+        tab.setContent(innerTab);
+    }
+
+    /**
+     * Set text of message-label
+     *
+     * @param m new text of message-label
+     */
+    public void setMessage(String m) {
+        message.setText(m);
+    }
+
+    /**
+     * Set textcolor of message-label
+     *
+     * @param color new textcolor of message-label
+     */
+    public void setMessageColor(Color color) {
+        message.setTextFill(color);
+    }
+
+    /**
+     * Give the FlowPanel that contains the monsters
+     *
+     * @return the monsterFlowPanel from the MainPanel
+     */
+    public FlowPane getMonsterFlowPanel() {
+        return monsterFlowPanel;
+    }
+
+    /**
+     * Give the FlowPanel that contains the treasures
+     *
+     * @return the treasureFlowPanel from the MainPanel
+     */
+    public FlowPane getTreasureFlowPanel() {
+        return treasureFlowPanel;
+    }
 }

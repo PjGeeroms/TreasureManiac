@@ -12,19 +12,20 @@ import java.util.List;
 import domein.Treasure;
 
 /**
- * Mapper for treasures WORKING
+ * Mapper for treasures
  *
  * @author Robin De Haes
+ * @see Treasure
  */
 public class TreasureMapper {
 
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/treasuremaniac?user=tm&password=tm";
 
     /**
-     * Adds a treasure
+     * Adds a treasure to the database
      *
      * @param treasure treasure to be added
-     * @return true if succesful, false if an error occured
+     * @return true if adding is succesful, false if an error occurred
      */
     public boolean addTreasure(Treasure treasure) {
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
@@ -52,10 +53,10 @@ public class TreasureMapper {
     }
 
     /**
-     * Update an existing treasure
+     * Update an existing treasure in the database
      *
      * @param treasure treasure to be updated
-     * @return true if succesful, false if an error occured
+     * @return true if update is succesful, false if an error occurred
      */
     public boolean updateTreasure(Treasure treasure) {
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
@@ -82,20 +83,20 @@ public class TreasureMapper {
     }
 
     /**
-     * Delete an existing treasure
+     * Delete a treasure from the database
      *
      * @param treasure the treasure to be deleted
-     * @return using the {@link #deleteTreasure(int id)} to delete the treasure
+     * @return true if deletion is succesful, false if an error occurred
      */
     public boolean deleteTreasure(Treasure treasure) {
         return deleteTreasure(treasure.getId());
     }
 
     /**
-     * Delete an existing treasure
+     * Delete a treasure from the database
      *
      * @param id id of treasure to be deleted
-     * @return true if succesful, false if an error occured
+     * @return true if deletion is succesful, false if an error occurred
      */
     public boolean deleteTreasure(int id) {
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
@@ -117,11 +118,43 @@ public class TreasureMapper {
     }
 
     /**
-     * Search for a treasure
+     * Search for all treasures in the database
+     *
+     * @return a list of all treasures
+     */
+    public List<Treasure> searchAllTreasures() {
+        List<Treasure> treasures = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
+            PreparedStatement queryAllTreasures = conn.prepareStatement("SELECT * FROM TREASURES");
+            try (ResultSet rs = queryAllTreasures.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    int value = rs.getInt("goldvalue");
+                    String description = rs.getString("description");
+                    int power = rs.getInt("power");
+                    int defense = rs.getInt("defense");
+                    int speed = rs.getInt("speed");
+                    int awareness = rs.getInt("awareness");
+                    String avatar = rs.getString("avatar");
+                    treasures.add(new Treasure(id, name, value, description, power, defense, speed, awareness, avatar));
+                }
+            }
+        } catch (SQLException ex) {
+            for (Throwable t : ex) {
+                t.printStackTrace();
+            }
+        }
+
+        return treasures;
+    }
+
+    /**
+     * Search for a treasure in the database
      *
      * @param id id of treasure that should be searched for
-     * @return the found treasure of type {@link <Treasure>}, false if an error
-     * occured
+     * @return the found treasure or null if an error occurred
      */
     public Treasure searchTreasure(int id) {
         Treasure treasure = null;
@@ -153,39 +186,12 @@ public class TreasureMapper {
     }
 
     /**
-     * Search for all existing treasures
+     * Test if a treasure is connected to monster(s)
      *
-     * @return a list of type {@link <Treasure>} with all treasures, false if an
-     * error occured
+     * @param id the id of the treasure whose connection is tested
+     * @return 0 if is connected, 1 if it isn't and -1 if an unexpected error
+     * occurred
      */
-    public List<Treasure> searchAllTreasures() {
-        List<Treasure> treasures = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
-            PreparedStatement queryAllTreasures = conn.prepareStatement("SELECT * FROM TREASURES");
-            try (ResultSet rs = queryAllTreasures.executeQuery()) {
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String name = rs.getString("name");
-                    int value = rs.getInt("goldvalue");
-                    String description = rs.getString("description");
-                    int power = rs.getInt("power");
-                    int defense = rs.getInt("defense");
-                    int speed = rs.getInt("speed");
-                    int awareness = rs.getInt("awareness");
-                    String avatar = rs.getString("avatar");
-                    treasures.add(new Treasure(id, name, value, description, power, defense, speed, awareness, avatar));
-                }
-            }
-        } catch (SQLException ex) {
-            for (Throwable t : ex) {
-                t.printStackTrace();
-            }
-        }
-
-        return treasures;
-    }
-
     public int isUnconnected(int id) {
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
             PreparedStatement queryAllLinks = conn.prepareStatement(
@@ -207,6 +213,12 @@ public class TreasureMapper {
         }
     }
 
+    /**
+     * Break all links between a treasure and the monster(s) connected to it
+     *
+     * @param id the id of the treasure whose links will be broken
+     * @return true if breaking the links was succesful, false if not
+     */
     private Boolean deleteAllLinks(int id) {
         try (Connection conn = DriverManager.getConnection(JDBC_URL)) {
             PreparedStatement queryDeleteAllLinks = conn.prepareStatement(

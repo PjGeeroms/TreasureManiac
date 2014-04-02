@@ -24,7 +24,6 @@ public class Monster {
     private final static int MIN = 0;
     private final static int maxTreasures = 3;
     private final static int MAX_NAME = 25;
-    private final static int MAX_DESCRIPTION = 50;
 
     /**
      * Default constructor to create a monster with default values
@@ -44,7 +43,7 @@ public class Monster {
      * @param speed the speed of the monster
      * @param awareness the awareness of the monster
      */
-    public Monster(int id, String name, int power, int defense, int speed, int awareness, String avatar) {
+    public Monster(int id, String name, int power, int defense, int speed, int awareness, String avatar) throws EmptyArgumentException, OutOfRangeException, ImageNotSelectedException {
         setId(id);
         setName(name);
         setAvatar(avatar);
@@ -77,7 +76,7 @@ public class Monster {
      * @return true or false depending if the monster can defend more treasure
      * or not
      */
-    public boolean isFull() {                               //NIET voor iteratie 1 (en waarschijnlijk onnodig)
+    public boolean isFull() {                               //NIET voor iteratie 2 (en waarschijnlijk onnodig)
         return treasures.size() <= maxTreasures;             //Maximaal 3 schatten in 1 kamer, bij 1 monster
     }
 
@@ -111,7 +110,7 @@ public class Monster {
      *
      * @param power value to change power
      */
-    public void setPower(int power) {
+    public void setPower(int power) throws OutOfRangeException {
         if (power < MIN || power > MAX) {
             throw new OutOfRangeException();
         } else {
@@ -133,7 +132,7 @@ public class Monster {
      *
      * @param defense value to change defense
      */
-    public void setDefense(int defense) {
+    public void setDefense(int defense) throws OutOfRangeException {
         if (defense < MIN || defense > MAX) {
             throw new OutOfRangeException();
         } else {
@@ -155,7 +154,7 @@ public class Monster {
      *
      * @param speed value to change speed
      */
-    public void setSpeed(int speed) {
+    public void setSpeed(int speed) throws OutOfRangeException {
         if (speed < MIN || speed > MAX) {
             throw new OutOfRangeException();
         }
@@ -176,7 +175,7 @@ public class Monster {
      *
      * @param awareness value to change the awareness
      */
-    public void setAwareness(int awareness) {
+    public void setAwareness(int awareness) throws OutOfRangeException {
         if (awareness < MIN || awareness > MAX) {
             throw new OutOfRangeException();
         } else {
@@ -198,7 +197,7 @@ public class Monster {
      *
      * @param name the name of the monster
      */
-    public void setName(String name) {
+    public void setName(String name) throws EmptyArgumentException, OutOfRangeException {
         if (name.equals("")) {
             throw new EmptyArgumentException();
         }
@@ -222,7 +221,7 @@ public class Monster {
      *
      * @param avatar path of the monster avatar
      */
-    public void setAvatar(String avatar) {
+    public void setAvatar(String avatar) throws ImageNotSelectedException {
         /*if (avatar.equals("") || avatar.equals(".jpg") || avatar.equals(".png")) {
          throw new EmptyArgumentException();
          }
@@ -288,10 +287,14 @@ public class Monster {
     }
 
     /**
+     * Compare with a monster
      *
-     * @return
+     * @param monster the treasure that will be compared with
+     * @return true if treasures are the same, false if not
      */
-    public static int getMAX_DESCRIPTION() {
-        return MAX_DESCRIPTION;
+    public boolean equals(Monster monster) {
+        return power == monster.power && defense == monster.defense
+                && speed == monster.speed && awareness == monster.awareness
+                && avatar.equals(monster.avatar) && name.equals(monster.name);
     }
 }
