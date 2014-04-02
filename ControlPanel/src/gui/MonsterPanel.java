@@ -597,10 +597,10 @@ public class MonsterPanel extends GridPane {
         txfDefense.setOpacity(0);
         cbAvatars.setOpacity(0);
 
-        txfPower.setMaxWidth(40);
-        txfDefense.setMaxWidth(40);
-        txfSpeed.setMaxWidth(40);
-        txfAwareness.setMaxWidth(40);
+        txfPower.setMaxWidth(45);
+        txfDefense.setMaxWidth(45);
+        txfSpeed.setMaxWidth(45);
+        txfAwareness.setMaxWidth(45);
 
         HBox padding1 = new HBox();
         padding1.setMinWidth(20);
