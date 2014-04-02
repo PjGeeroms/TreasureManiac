@@ -47,14 +47,20 @@ public class Dialog {
         NO, YES, CLOSED
     };
 
+    private static Stage initializeWindow(Stage owner, String title) {
+        Stage window = new Stage();
+        window.initStyle(StageStyle.UTILITY);
+        window.getIcons().add(qTitle);
+        window.setTitle(title);
+        window.setResizable(false);
+        window.initOwner(owner);
+        window.initModality(Modality.APPLICATION_MODAL);//blokkeert invoer naar achtergrondapplicatie
+        
+        return window;
+    }
+
     private static Response buildConfirmationDialog(Stage owner, String message, String title) {
-        final Stage dialog = new Stage();
-        dialog.initStyle(StageStyle.UTILITY);
-        dialog.getIcons().add(qTitle);
-        dialog.setTitle(title);
-        dialog.setResizable(false);
-        dialog.initOwner(owner);
-        dialog.initModality(Modality.APPLICATION_MODAL);
+        final Stage dialog = initializeWindow(owner, title);
         btnPressed = Response.CLOSED;
 
         FlowPane buttons = new FlowPane(10, 10);
@@ -62,10 +68,8 @@ public class Dialog {
         Button yes = new Button("Yes");
         Button no = new Button("No");
         buttons.getChildren().addAll(yes, no);
-        buttons.setPadding(new Insets(0, 0, 10, 0));     //trbl-paddingwaarden
 
         HBox hBox = new HBox();
-        hBox.setPadding(new Insets(10, 5, 0, 5));
         ImageView question = new ImageView(Question);
         question.setFitHeight(60);
         question.setFitWidth(60);
@@ -82,6 +86,7 @@ public class Dialog {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(10);
         vBox.getChildren().addAll(hBox, buttons);
+        vBox.setPadding(new Insets(10));
 
         yes.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -108,13 +113,7 @@ public class Dialog {
     }
 
     private static void buildMessageDialog(Stage owner, String message, String title) {
-        final Stage dialog = new Stage();
-        dialog.initStyle(StageStyle.UTILITY);
-        dialog.getIcons().add(iTitle);
-        dialog.setTitle(title);
-        dialog.setResizable(false);
-        dialog.initOwner(owner);
-        dialog.initModality(Modality.APPLICATION_MODAL);            //blokkeert invoer naar achtergrondapplicatie
+        final Stage dialog = initializeWindow(owner, title);
 
         FlowPane buttons = new FlowPane(10, 10);
         buttons.setAlignment(Pos.CENTER);
@@ -138,7 +137,7 @@ public class Dialog {
         vBox.setAlignment(Pos.CENTER);
         vBox.setSpacing(10);
         vBox.getChildren().addAll(hBox, buttons);
-        vBox.setPadding(new Insets(20));
+        vBox.setPadding(new Insets(10));
 
         ok.setOnAction(new EventHandler<ActionEvent>() {
             @Override
