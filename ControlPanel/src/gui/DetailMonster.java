@@ -23,34 +23,24 @@ public class DetailMonster extends GridPane {
     private DomeinController controller;
     private ImageView ivPower, ivDefense, ivSpeed, ivAwareness;
 
-    //pro
-    protected Label lblDetailName, lblDetailPower,
-            /**
-             *
-             */
-            lblDetailDefense,
-            /**
-             *
-             */
-            lblDetailSpeed,
-            /**
-             *
-             */
-            lblDetailAwareness;
+    protected Label lblDetailName, lblDetailPower, lblDetailDefense, lblDetailSpeed, lblDetailAwareness;
     private Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
     private Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
     private Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
     private Image iAwareness = new Image(Main.class.getResourceAsStream("/images/icons/Awareness.png"));
 
     /**
-     *
-     * @param controller
+     * Constructor 
+     * @param controller the domain controller
      */
     public DetailMonster(DomeinController controller) {
         this.controller = controller;
         buildPanel();
     }
 
+    /**
+     * Build the standard panel
+     */
     private void buildPanel() {
         ivPower = new ImageView(iPower);
         ivPower.setFitHeight(24);

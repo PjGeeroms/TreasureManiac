@@ -19,13 +19,7 @@ public class DetailTreasure extends GridPane {
     private DomeinController controller;
     private ImageView ivPower, ivDefense, ivSpeed, ivAwareness, ivValue;
 
-    protected Label lblDetailName,
-            lblDetailDescription,
-            lblDetailPower,
-            lblDetailDefense,
-            lblDetailSpeed,
-            lblDetailAwareness,
-            lblDetailValue;
+    protected Label lblDetailName, lblDetailDescription, lblDetailPower, lblDetailDefense, lblDetailSpeed, lblDetailAwareness, lblDetailValue;
     private static Image iPower = new Image(Main.class.getResourceAsStream("/images/icons/Sword.png"));
     private static Image iDefense = new Image(Main.class.getResourceAsStream("/images/icons/Shield.png"));
     private static Image iSpeed = new Image(Main.class.getResourceAsStream("/images/icons/Speed.png"));
