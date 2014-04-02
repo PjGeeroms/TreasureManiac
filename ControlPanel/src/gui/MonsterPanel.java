@@ -583,7 +583,7 @@ public class MonsterPanel extends GridPane {
         cbAvatars = FillAvatarChoiceBox();
 
         List items = cbAvatars.getItems();
-        for (int i = 0;i < items.size();i++) {
+        for (int i = 0; i < items.size(); i++) {
             if (items.get(i).toString().equals(lblAvatar.getText())) {
                 cbAvatars.getSelectionModel().select(items.get(i));
             }

@@ -62,7 +62,10 @@ public class Dialog {
         Button yes = new Button("Yes");
         Button no = new Button("No");
         buttons.getChildren().addAll(yes, no);
+        buttons.setPadding(new Insets(0, 0, 10, 0));     //trbl-paddingwaarden
+
         HBox hBox = new HBox();
+        hBox.setPadding(new Insets(10, 5, 0, 5));
         ImageView question = new ImageView(Question);
         question.setFitHeight(60);
         question.setFitWidth(60);
@@ -98,6 +101,7 @@ public class Dialog {
         Scene s = new Scene(vBox);
         dialog.setScene(s);
         dialog.sizeToScene();
+        dialog.centerOnScreen();
         dialog.showAndWait();
 
         return btnPressed;
@@ -146,6 +150,7 @@ public class Dialog {
         Scene s = new Scene(vBox);
         dialog.setScene(s);
         dialog.sizeToScene();
+        dialog.centerOnScreen();
         dialog.showAndWait();
     }
 
