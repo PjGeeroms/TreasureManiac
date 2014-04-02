@@ -8,8 +8,6 @@ package gui;
 import domein.DomeinController;
 import exceptions.EmptyArgumentException;
 import exceptions.OutOfRangeException;
-import exceptions.TreasureIsUnconnectedException;
-import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

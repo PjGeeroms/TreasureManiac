@@ -2,7 +2,6 @@
 package domein;
 
 import exceptions.*;
-import gui.Main;
 import java.util.ArrayList;
 import java.util.List;
 
