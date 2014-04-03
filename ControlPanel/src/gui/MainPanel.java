@@ -117,27 +117,17 @@ public class MainPanel extends BorderPane {
 
     private void initializeRelationsTab(Tab tab) {
 
-        linkPanel = new FlowPane(Orientation.VERTICAL);
+        linkPanel = new FlowPane(Orientation.HORIZONTAL);
         linkPanel.setPadding(new Insets(10));
         linkPanel.setHgap(10);
         linkPanel.setVgap(10);
 
-        showPanel = new FlowPane(Orientation.HORIZONTAL);
-        showPanel.setPadding(new Insets(10));
-        showPanel.setHgap(10);
-        showPanel.setVgap(10);
-
-        AddTrMoID other1 = new AddTrMoID(this);
-        RemoveTrMoID other2 = new RemoveTrMoID(this);
-        ShowTrMoID other3 = new ShowTrMoID(this);
-
-        linkPanel.getChildren().addAll(other1);
-        linkPanel.getChildren().addAll(other2);
-        showPanel.getChildren().addAll(other3);
-
+        RelationsPanel r = new RelationsPanel(this);
+   
+        linkPanel.getChildren().addAll(r);
+        
         innerTab = new BorderPane();
-        innerTab.setLeft(linkPanel);
-        innerTab.setCenter(showPanel);
+        innerTab.setCenter(linkPanel);
 
         tab.setContent(innerTab);
 

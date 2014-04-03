@@ -303,5 +303,14 @@ public class Monster {
     public static int getMAX_AVATAR() {
         return MAX_AVATAR;
     }
+    
+    @Override
+    public String toString() {
+        String text;
+        if(id >= 10)text = "[#" + id + "]\t" + name;
+        else{text = "[#" + id + "]\t\t" + name;}
+        return text;
+        
+    }
 
 }

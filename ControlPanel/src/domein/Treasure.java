@@ -289,7 +289,10 @@ public class Treasure {
 
     @Override
     public String toString() {
-        return "ID: " + id + "         Name: " + name;
+        String text;
+        if(id >= 10)text = "[#" + id + "]\t" + name;
+        else{text = "[#" + id + "]\t\t" + name;}
+        return text;
     }
 
     /**
